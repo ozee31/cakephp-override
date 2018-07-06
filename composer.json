@@ -1,6 +1,6 @@
 {
-    "name": "your-name-here/Override",
-    "description": "Override plugin for CakePHP",
+    "name": "ozee31/cakephp-override",
+    "description": "Easily override plugin classes and templates for CakePHP",
     "type": "cakephp-plugin",
     "license": "MIT",
     "require": {
