@@ -44,6 +44,17 @@ Plugin::load('Override', ['bootstrap' => true]);
 
 - Add this code in your `config/routes.php` file and move `Plugin::routes()` at the end of file
 
+- Load Overload component in your `AppController`
+
+```php
+public function initialize()
+{
+    parent::initialize();
+
+    $this->loadComponent('Override.Override');
+}
+```
+
 ```php
 <?php
 // Use Override class
@@ -63,9 +74,9 @@ Plugin::routes();
 
 ## Exemples
 
-In my examples I will override the [Croogo plugin](https://github.com/croogo/croogo) but it works with any plugins
-
 ### Routes
+
+In my example I will override the [Croogo plugin](https://github.com/croogo/croogo) but it works with any plugins
 
 If you want rewrite this route :
 
@@ -95,3 +106,41 @@ Template overload is native in Cakephp
 If you want rewrite the `Users/index.ctp` template of `MyPlugin`, you just need to create the following file in your project : `src/Template/Plugin/MyPlugin/Users/index.ctp` (`src/Template/Plugin/PluginName/ControllerName/ActionName.ctp`)
 
 Croogo use subPlugin, If you want rewrite `Users/view.ctp` template of `Croogo.Users` plugin, you just need to create the following file in your project : `src/Template/Plugin/Croogo/Users/Users/view.ctp` (`src/Template/Plugin/PluginName/SubpluginName/ControllerName/ActionName.ctp`)
+
+### Models
+
+#### Only entity
+
+If you want overload the `User` entity of `MyPlugin` you must add this code in `config/overrides.php`
+
+```php
+'models' => [
+    'MyPlugin.Users' => ['entityClass' => 'App\Model\Entity\User'],
+],
+```
+
+#### Table and entity
+
+If you want overload the `User` entity and the `Users` table of `MyPlugin` you must add this code in `config/overrides.php` 
+
+```php
+'models' => [
+    'MyPlugin.Users' => [
+        'className' => 'App\Model\Table\UsersTable', 
+        'entityClass' => 'App\Model\Entity\User'
+    ],
+],
+```
+
+#### Only Table
+
+If you want just overload the `Users` table of `MyPlugin` you must redeclare the entity class :
+
+```php
+'models' => [
+    'MyPlugin.Users' => [
+        'className' => 'App\Model\Table\UsersTable', 
+        'entityClass' => 'MyPlugin\Model\Entity\User'
+    ],
+],
+```
