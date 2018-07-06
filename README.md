@@ -44,17 +44,6 @@ Plugin::load('Override', ['bootstrap' => true]);
 
 - Add this code in your `config/routes.php` file and move `Plugin::routes()` at the end of file
 
-- Load Overload component in your `AppController`
-
-```php
-public function initialize()
-{
-    parent::initialize();
-
-    $this->loadComponent('Override.Override');
-}
-```
-
 ```php
 <?php
 // Use Override class
@@ -70,6 +59,17 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 // Plugin routes must be declared after Override::connect()
 Plugin::routes();
+```
+
+- Load Overload component in your `AppController`
+
+```php
+public function initialize()
+{
+    parent::initialize();
+
+    $this->loadComponent('Override.Override');
+}
 ```
 
 ## Exemples
@@ -143,4 +143,47 @@ If you want just overload the `Users` table of `MyPlugin` you must redeclare the
         'entityClass' => 'MyPlugin\Model\Entity\User'
     ],
 ],
+```
+
+### Helpers
+
+If you want overload the `TestsHelper` of `MyPlugin` you must add this code in `config/overrides.php`
+
+```php
+'helpers' => [
+        'MyPlugin.Tests' => [
+            'className' => 'Tests', // must be the same name of original
+            'controllers' => true, // true if you want overload for all Controllers, an array or a string otherwise
+        ]
+    ]
+```
+
+## Troubleshooting
+
+### My model overloads don't work
+
+Try to clear your cache (`tmp/cache/models` and `tmp/cache/persistent`)
+
+### When overload a route, plugin models are not loaded
+
+You must redeclare models in `config/overrides.php`
+
+For example
+
+```php
+<?php return ['Overrides' => [
+    'routes' => [
+        '/myplugin/users' => [
+            'route' => ['controller' => 'Users', 'action' => 'index', 'plugin' => false],
+        ],
+    ],
+    'models' => [
+        'MyPlugin.Users' => [
+            'className' => 'MyPlugin\Model\Table\UsersTable',
+            'entityClass' => 'MyPlugin\Model\Entity\User'
+        ],
+    ],
+    'helpers' => []
+]];
+
 ```
