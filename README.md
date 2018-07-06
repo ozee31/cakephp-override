@@ -1,5 +1,10 @@
 # Override plugin for CakePHP
 
+## Requirements
+
+- PHP version 5.6 or higher
+- CakePhp 3.4 or higher
+
 ## Installation
 
 You can install this plugin into your CakePHP application using [composer](http://getcomposer.org).
@@ -83,3 +88,10 @@ You must add in `config/overrides.php`
 ],
 ```
 
+### Templates
+
+Template overload is native in Cakephp
+
+If you want rewrite the `Users/index.ctp` template of `MyPlugin`, you just need to create the following file in your project : `src/Template/Plugin/MyPlugin/Users/index.ctp` (`src/Template/Plugin/PluginName/ControllerName/ActionName.ctp`)
+
+Croogo use subPlugin, If you want rewrite `Users/view.ctp` template of `Croogo.Users` plugin, you just need to create the following file in your project : `src/Template/Plugin/Croogo/Users/Users/view.ctp` (`src/Template/Plugin/PluginName/SubpluginName/ControllerName/ActionName.ctp`)
